@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region Singleton
+
     private static GameManager instance;
     public static GameManager Instance => instance;
+
+    #endregion
 
     [SerializeField] private GameState gameState;
 
@@ -35,7 +39,14 @@ public class GameManager : MonoBehaviour
 
     private void CleanHorseShoe()
     {
-        
+        if (Input.GetTouch(0).deltaPosition != Vector2.zero)
+        {
+            print("Deðil");
+        }
+        else
+        {
+            print("Zero");
+        }
     }
 
     private void PaintHorseShoe()
