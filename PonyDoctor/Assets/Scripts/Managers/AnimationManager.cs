@@ -10,9 +10,25 @@ public class AnimationManager : MonoBehaviour
 
     #endregion
 
+    [SerializeField] private Animator horseShoeAnim;
+    [SerializeField] private Animator pincersAnim;
+
     void Awake()
     {
         instance = this;    
+    }
+
+    public void PlayItemAnimation(ItemType itemType, string animationName)
+    {
+        switch (itemType)   
+        {
+            case ItemType.Pincers:
+                pincersAnim.Play(animationName);
+                break;
+            case ItemType.Horseshoe:
+                horseShoeAnim.Play(animationName);
+                break;
+        }
     }
 
     public void PauseAnimation(Animator anim)
