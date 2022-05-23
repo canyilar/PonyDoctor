@@ -1,7 +1,6 @@
-using DG.Tweening;
 using UnityEngine;
 
-public class Item : MonoBehaviour, IInteractable
+public class Item : MonoBehaviour, IInteractable, IAnimated
 {
     [Tooltip("Animation name that should be played.")]
     [SerializeField] private string animationName;
@@ -12,6 +11,7 @@ public class Item : MonoBehaviour, IInteractable
     public bool CanInteract { get; set; }
 
     private Animator anim;
+    private GameManager gameManager;
 
     void Awake()
     {
@@ -20,25 +20,45 @@ public class Item : MonoBehaviour, IInteractable
         CanInteract = true;
     }
 
-    void OnMouseDown()
+    void Start()
     {
-        if (CanInteract)
-            Interact();
+        gameManager = GameManager.Instance;
     }
 
-    public void Interact()
+    void OnMouseDown()
+    {
+        if (CanInteract && gameManager.actionAvaible)
+        {
+            Interact();
+        }
+    }
+
+    public virtual void Interact()
     {
         anim.Play(animationName);
         CanInteract = false;
     }
 
-    // Animation Event
+    #region Animation Events
+
     /// <summary>
     /// Does an action when animation completed.
     /// </summary>
-    public void OnAnimationCompleted()
+    public virtual void OnAnimationCompleted()
     {
-        GameManager.Instance.IncrementActionIndex();
-        Camera.main.transform.DOMoveX(Camera.main.transform.position.x + 6, 1);
+        gameManager.IncrementActionIndex();
+        gameManager.SlideCamera(2);
     }
+
+    protected virtual void InteractWithItem()
+    {
+    }
+
+    public void SetActiveFalse()
+    {
+        gameObject.SetActive(false);
+    }
+
+    #endregion
+
 }

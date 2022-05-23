@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,11 +11,21 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    [SerializeField, Range(1, 5)] private int cameraSlideSpeed = 2;
     [SerializeField] private GameState gameState;
+
+    /// <summary>
+    /// Determines if player can do any action (Interaction etc.).
+    /// </summary>
+    public bool actionAvaible { get; set; }
+
+    private Camera mainCam;
 
     void Awake()
     {
         instance = this;
+
+        mainCam = Camera.main;
     }
 
     void Update()
@@ -39,13 +51,14 @@ public class GameManager : MonoBehaviour
 
     private void CleanHorseShoe()
     {
-        if (Input.GetTouch(0).deltaPosition != Vector2.zero)
+        var touch = Input.GetTouch(0);
+
+        var screenPos = mainCam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, mainCam.transform.position.z));
+        var mouseDelta = touch.deltaPosition;
+
+        if (Mathf.Abs(mouseDelta.y) > 20)
         {
-            print("Deðil");
-        }
-        else
-        {
-            print("Zero");
+            print("AAAAA");
         }
     }
 
@@ -65,6 +78,22 @@ public class GameManager : MonoBehaviour
             gameState = 0;
     }
 
+
+    public void SlideCamera(float slideAmount)
+    {
+        StartCoroutine(SlideCameraCO(slideAmount));
+    }
+
+    private IEnumerator SlideCameraCO(float slideAmount)
+    {
+        var nextCamPos = mainCam.transform.position.x + slideAmount;
+        while (mainCam.transform.position.x < nextCamPos)
+        {
+            mainCam.transform.Translate(Vector3.right * Time.deltaTime * cameraSlideSpeed, Space.Self);
+            yield return null;
+        }
+    }
+
     public int GetGameStateInt()
     {
         return (int)gameState;
@@ -74,13 +103,4 @@ public class GameManager : MonoBehaviour
     {
         return gameState;
     }
-}
-
-public enum GameState
-{
-    RemoveHorseShoe,
-    CleanHorseShoe,
-    CutHorseNail,
-    PaintHorseShoe,
-    PutHorseShoe
 }
