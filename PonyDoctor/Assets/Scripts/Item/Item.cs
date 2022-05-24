@@ -49,7 +49,7 @@ public class Item : MonoBehaviour, IInteractable, IAnimated
         gameManager.OnActionCompleted();
     }
 
-    protected virtual void InteractWithItem(int itemType)
+    protected virtual void InteractWithItem(int state)
     {
     }
 

@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Pincers : Item
 {
     public override void Interact()
@@ -10,11 +6,11 @@ public class Pincers : Item
         UIManager.Instance.DisableFingerImage();
     }
 
-    protected override void InteractWithItem(int itemType)
+    protected override void InteractWithItem(int state)
     {
-        if (itemType == 1)
-            AnimationManager.Instance.PlayItemAnimation((ItemType)itemType, "TakeOut");
-        else if (itemType == 2)
-            AnimationManager.Instance.PlayItemAnimation((ItemType)itemType, "NailFall");
+        if (state == 2)
+            AnimationManager.Instance.PlayItemAnimation(state, "TakeOut");
+        else if (state == 3)
+            AnimationManager.Instance.PlayItemAnimation(state, "NailFall");
     }
 }

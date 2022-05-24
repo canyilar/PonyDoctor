@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
 
         ActivateStateObjects();
         DoSlideCamera(stateObjects[(int)gameState].transform.position.x);
+        actionAvaible = false;
     }
 
     private void ActivateStateObjects()

@@ -1,5 +1,4 @@
 using UnityEngine;
-using DG.Tweening;
 
 public class AnimationManager : MonoBehaviour
 {
@@ -10,7 +9,8 @@ public class AnimationManager : MonoBehaviour
 
     #endregion
 
-    [SerializeField] private Animator horseShoeAnim;
+    [SerializeField] private Animator firstStatehorseShoeAnim;
+    [SerializeField] private Animator fifthStatehorseShoeAnim;
     [SerializeField] private Animator pincersAnim;
     [SerializeField] private Animator nailAnim;
 
@@ -19,18 +19,21 @@ public class AnimationManager : MonoBehaviour
         instance = this;    
     }
 
-    public void PlayItemAnimation(ItemType itemType, string animationName)
+    public void PlayItemAnimation(int state, string animationName)
     {
-        switch (itemType)   
+        switch (state)   
         {
-            case ItemType.Pincers:
+            case 1:
                 pincersAnim.Play(animationName);
                 break;
-            case ItemType.Horseshoe:
-                horseShoeAnim.Play(animationName);
+            case 2:
+                firstStatehorseShoeAnim.Play(animationName);
                 break;
-            case ItemType.Nail:
+            case 3:
                 nailAnim.Play(animationName);
+                break;
+            case 5:
+                fifthStatehorseShoeAnim.Play(animationName);
                 break;
         }
     }
