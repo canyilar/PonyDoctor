@@ -10,5 +10,6 @@ public enum GameState
 public enum ItemType
 {
     Pincers,
-    Horseshoe
+    Horseshoe,
+    Nail
 }

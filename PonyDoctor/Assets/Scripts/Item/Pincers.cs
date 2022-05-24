@@ -10,8 +10,11 @@ public class Pincers : Item
         UIManager.Instance.DisableFingerImage();
     }
 
-    protected override void InteractWithItem()
+    protected override void InteractWithItem(int itemType)
     {
-        AnimationManager.Instance.PlayItemAnimation(ItemType.Horseshoe, "TakeOut");
+        if (itemType == 1)
+            AnimationManager.Instance.PlayItemAnimation((ItemType)itemType, "TakeOut");
+        else if (itemType == 2)
+            AnimationManager.Instance.PlayItemAnimation((ItemType)itemType, "NailFall");
     }
 }

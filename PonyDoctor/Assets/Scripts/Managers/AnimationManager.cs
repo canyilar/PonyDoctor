@@ -12,6 +12,7 @@ public class AnimationManager : MonoBehaviour
 
     [SerializeField] private Animator horseShoeAnim;
     [SerializeField] private Animator pincersAnim;
+    [SerializeField] private Animator nailAnim;
 
     void Awake()
     {
@@ -27,6 +28,9 @@ public class AnimationManager : MonoBehaviour
                 break;
             case ItemType.Horseshoe:
                 horseShoeAnim.Play(animationName);
+                break;
+            case ItemType.Nail:
+                nailAnim.Play(animationName);
                 break;
         }
     }
