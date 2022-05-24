@@ -7,5 +7,6 @@ public class Pony : MonoBehaviour, IAnimated
     public void OnAnimationCompleted()
     {
         GameManager.Instance.actionAvaible = true;
+        UIManager.Instance.ActivateFingerImage();
     }
 }

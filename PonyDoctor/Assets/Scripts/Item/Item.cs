@@ -46,11 +46,10 @@ public class Item : MonoBehaviour, IInteractable, IAnimated
     /// </summary>
     public virtual void OnAnimationCompleted()
     {
-        gameManager.IncrementActionIndex();
-        gameManager.SlideCamera(2);
+        gameManager.OnActionCompleted();
     }
 
-    protected virtual void InteractWithItem()
+    protected virtual void InteractWithItem(int itemType)
     {
     }
 

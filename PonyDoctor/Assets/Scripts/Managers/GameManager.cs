@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField, Range(1, 5)] private int cameraSlideSpeed = 2;
     [SerializeField] private GameState gameState;
+    [SerializeField] private GameObject[] stateObjects;
 
     /// <summary>
     /// Determines if player can do any action (Interaction etc.).
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
         instance = this;
 
         mainCam = Camera.main;
+        ActivateStateObjects();
     }
 
     void Update()
@@ -62,6 +65,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [ContextMenu("OnActionCompleted")]
+    public void OnActionCompleted()
+    {
+        IncrementActionIndex();
+
+        ActivateStateObjects();
+        DoSlideCamera(stateObjects[(int)gameState].transform.position.x);
+    }
+
+    private void ActivateStateObjects()
+    {
+        foreach (var obj in stateObjects)
+        {
+            obj.SetActive(false);
+        }
+        stateObjects[(int)gameState].SetActive(true);
+    }
+
     private void PaintHorseShoe()
     {
 
@@ -76,6 +97,11 @@ public class GameManager : MonoBehaviour
 
         if ((int)gameState > 4)
             gameState = 0;
+    }
+
+    public void DoSlideCamera(float slideAmount)
+    {
+        mainCam.transform.DOMoveX(slideAmount, 1);
     }
 
 
