@@ -4,7 +4,8 @@ public enum GameState
     CleanHorseShoe,
     CutHorseNail,
     PaintHorseShoe,
-    PutHorseShoe
+    PutHorseShoe,
+    EndingMenu
 }
 
 public enum ItemType

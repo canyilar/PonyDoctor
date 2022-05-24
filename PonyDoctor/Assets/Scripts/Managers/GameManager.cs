@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     public bool actionAvaible { get; set; }
 
     private Camera mainCam;
+    [SerializeField]
+    TexturePainter texturePainter;
 
     void Awake()
     {
@@ -73,6 +75,15 @@ public class GameManager : MonoBehaviour
         ActivateStateObjects();
         DoSlideCamera(stateObjects[(int)gameState].transform.position.x);
         actionAvaible = false;
+
+
+        if (gameState == GameState.PaintHorseShoe)
+        {
+            texturePainter.SetPaintingMode(true);
+        }
+        else {
+            texturePainter.SetPaintingMode(false);
+        }
     }
 
     private void ActivateStateObjects()
@@ -96,7 +107,7 @@ public class GameManager : MonoBehaviour
     {
         gameState++;
 
-        if ((int)gameState > 4)
+        if ((int)gameState > 5)
             gameState = 0;
     }
 

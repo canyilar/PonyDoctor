@@ -24,22 +24,28 @@ public class TexturePainter : MonoBehaviour {
 	bool saving=false; //Flag to check if we are saving the texture
 
     [SerializeField]
-    ParticleSystem brushParticle;
+    ParticleSystem brushParticle,bubbleParticle;
+    ParticleSystem currentParticle;
     Material brushParticleMaterial;
 
     [SerializeField]
-    Transform brushModel;
+    Transform soapModel;
 
     [SerializeField]
     bool isPaintingMode=true;
     Vector3 lastHitPosition = new Vector3(9999, 9999, 9999);
 
+    [SerializeField]
+    GameObject brushPalleteCanvas;
+
     private void Start()
     {
+        SetPaintingMode(false);
         if (brushParticle)
         {
             brushParticleMaterial = brushParticle.GetComponent<Renderer>().sharedMaterial; 
         }
+        currentParticle = bubbleParticle;
     }
     void Update () {
 		
@@ -50,7 +56,8 @@ public class TexturePainter : MonoBehaviour {
         }
         else
         {
-            brushColor = Color.white;
+           
+            brushColor = new Color (0.5f,0.5f,0.5f,1f);
         }
 
 		if (Input.GetMouseButton(0)) {
@@ -59,6 +66,37 @@ public class TexturePainter : MonoBehaviour {
 		UpdateBrushCursor ();
 	}
 
+    public void SetPaintingMode(bool mode)
+    {
+        isPaintingMode = mode;
+        if (isPaintingMode)
+        {
+            currentParticle = brushParticle;
+            bubbleParticle.gameObject.SetActive(false);
+            brushParticle.gameObject.SetActive(true);
+            soapModel.gameObject.SetActive(false);
+            brushPalleteCanvas.SetActive(true);
+        }
+        else
+        {
+            currentParticle = bubbleParticle;
+            brushParticle.gameObject.SetActive(false);
+            bubbleParticle.gameObject.SetActive(true);
+            soapModel.gameObject.SetActive(true);
+            brushPalleteCanvas.SetActive(false);
+        }  
+    }
+
+
+    void DeleteBrushStrokes()
+    {
+        foreach( Transform i in brushContainer.transform)
+        {
+            Destroy(i.gameObject);
+        }
+    }
+
+
 	//The main action, instantiates a brush or decal entity at the clicked position on the UV map
 	void DoAction(){	
 		if (saving)
@@ -66,13 +104,13 @@ public class TexturePainter : MonoBehaviour {
 		Vector3 uvWorldPosition=Vector3.zero;		
 		if(HitTestUVPosition(ref uvWorldPosition)){
 
-            if (brushParticle)
+            if (currentParticle)
             {
-                brushParticle.transform.position = lastHitPosition;
+                currentParticle.transform.position = lastHitPosition;
             }
-            if (brushModel)
+            if (soapModel && isPaintingMode==false)
             {
-                brushModel.position = lastHitPosition;
+                soapModel.position = lastHitPosition;
             }
 
            
@@ -115,6 +153,7 @@ public class TexturePainter : MonoBehaviour {
 		Ray cursorRay=sceneCamera.ScreenPointToRay (cursorPos);
 		if (Physics.Raycast(cursorRay,out hit,200)){
             lastHitPosition = hit.point;
+            lastHitPosition.z -= 0.02f;
             MeshCollider meshCollider = hit.collider as MeshCollider;
 			if (meshCollider == null || meshCollider.sharedMesh == null)
 				return false;			
@@ -126,13 +165,13 @@ public class TexturePainter : MonoBehaviour {
 		}
 		else{
             lastHitPosition = new Vector3(9999, 9999, 9999);
-            if (brushParticle)
+            if (currentParticle)
             {
-                brushParticle.transform.position = new Vector3(9999, 9999, 9999);
+                currentParticle.transform.position = new Vector3(9999, 9999, 9999);
             }
-            if (brushModel)
+            if (soapModel)
             {
-                brushModel.position = lastHitPosition;
+                soapModel.position = lastHitPosition;
             }
             
             return false;
@@ -142,7 +181,11 @@ public class TexturePainter : MonoBehaviour {
 
     public void ChangeParticleColor(Color _color)
     {
-        brushParticleMaterial.color = _color;
+        if (brushParticleMaterial)
+        {
+            brushParticleMaterial.color = _color;
+        }
+     
     }
 
 	//Sets the base material with a our canvas texture, then removes all our brushes

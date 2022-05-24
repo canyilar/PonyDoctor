@@ -5,7 +5,9 @@ public class Hammer : Item
         AnimationManager.Instance.PlayItemAnimation(state, "HorseshoePut");
     }
 
-    public override void OnAnimationCompleted()
+    public override void Interact()
     {
+        base.Interact();
+        UIManager.Instance.DisableFingerImage();
     }
 }

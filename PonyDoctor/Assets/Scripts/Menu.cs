@@ -14,10 +14,6 @@ public class Menu : MonoBehaviour
     [SerializeField]
     Image flash;
 
-    [SerializeField]
-    Texture[] palettes;
-
-    int lastChoosenIndex;
 
     [SerializeField]
     TMP_Text scoreText;
@@ -32,49 +28,80 @@ public class Menu : MonoBehaviour
 
     Transform currentDoor;
 
+
+    Transform currentStable;
+
+
     private void Start()
     {
-        if (stablePrefab)
-        {
-            material = stablePrefab.transform.GetChild(0).GetChild(5).GetComponent<Renderer>().sharedMaterial;
-           
-        }
+
         if (oldStable)
         {
+            material = oldStable.transform.GetChild(0).Find("Mesh.057").GetComponent<Renderer>().sharedMaterial;
             currentDoor = oldStable.transform.GetChild(1).GetChild(0);
         }
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
 
         flash.color = new Color(1, 1, 1, 1);
         flash.DOColor(new Color(1, 1, 1, 0), 0.5f);
+
+        SceneManager.sceneLoaded += NextDay;
+
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= NextDay;
     }
 
     public void ChangeScene(string sceneName)
     {
+        if (currentDoor == null)
+        {
+            currentDoor=currentStable.GetChild(1).GetChild(0);
+        }
+
         currentDoor.DORotate(new Vector3(0f, 120f, 0f), 0.5f).OnComplete(()=> { flash.DOColor(new Color(1, 1, 1, 1), 0.5f).OnComplete(() => SceneManager.LoadScene(sceneName)); });
        
     }
 
-    public void NextDay()
+    public void NextDayOnClick()
+    {
+        NextDay(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+    }
+
+
+    public void NextDay(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         if (stablePrefab==null)
         {
             return;
         }
 
-            Vector3 newPos = stablePrefab.transform.position;
+        if (_scene.name != "MainMenu")
+        {
+            return;
+        }
+
+        Vector3 newPos = stablePrefab.transform.position;
         newPos.x=(day* stableWidthMultiplier);
         GameObject stable = Instantiate(stablePrefab, newPos, Quaternion.identity);
         currentDoor = stable.transform.GetChild(1).GetChild(0);
+        currentStable = stable.transform;
+
+        if (material==null && oldStable)
+        {
+            material = oldStable.transform.GetChild(0).Find("Mesh.057").GetComponent<Renderer>().sharedMaterial;
+        }
 
 
-        lastChoosenIndex = Random.Range(0, palettes.Length);
-        print(lastChoosenIndex);
         Material _material = new Material(material);
-        _material.SetTexture("_MainTex", palettes[lastChoosenIndex]);
+        _material.SetTexture("_MainTex", PonyTextures.Instance.GetRandomTexture());
+
+
         stable.transform.GetChild(0).GetChild(5).GetComponent<Renderer>().sharedMaterial = _material;
 
         float newX = (day * stableWidthMultiplier);
@@ -85,11 +112,16 @@ public class Menu : MonoBehaviour
         scoreText.text = "DAY" + day;
     }
 
+
+
+
+
+
     private void Update()
     {
         if (Input.GetKeyUp(KeyCode.Space)){
 
-            NextDay();
+            NextDay(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         }
     }
 

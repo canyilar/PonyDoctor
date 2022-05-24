@@ -29,7 +29,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         {
             instance = this as T;
             gameObject.name= typeof(T).Name;
-            //DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
