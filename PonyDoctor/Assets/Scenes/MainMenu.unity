@@ -1253,6 +1253,7 @@ GameObject:
   - component: {fileID: 323984826}
   - component: {fileID: 323984828}
   - component: {fileID: 323984827}
+  - component: {fileID: 323984829}
   m_Layer: 5
   m_Name: TapToStart
   m_TagString: Untagged
@@ -1377,6 +1378,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 323984825}
   m_CullTransparentMesh: 1
+--- !u!95 &323984829
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323984825}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 443a4668d77fe9a4cb9bbba66d39bff1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &350137716
 GameObject:
   m_ObjectHideFlags: 0
