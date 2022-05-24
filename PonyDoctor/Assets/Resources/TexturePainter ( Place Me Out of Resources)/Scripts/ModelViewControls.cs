@@ -5,7 +5,7 @@ public class ModelViewControls : MonoBehaviour {
 	private int yMinLimit = 0, yMaxLimit = 80;
 	private Quaternion currentRotation, desiredRotation, rotation;
 	private float yDeg=15, xDeg=0.0f;
-	private float currentDistance,desiredDistance=3.0f,maxDistance = 6.0f,minDistance = 9.0f;
+	private float currentDistance,desiredDistance=0.3f,maxDistance = 0.3f,minDistance = 0.5f;
 	private Vector3 position;
 	public GameObject targetObject,camObject;
 	float sensitivity=1.25f;

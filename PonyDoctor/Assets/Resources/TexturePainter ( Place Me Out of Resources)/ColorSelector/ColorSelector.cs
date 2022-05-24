@@ -29,6 +29,7 @@ public class ColorSelector : MonoBehaviour {
 	}
 
 	void Update () {
+
 		if (Input.GetMouseButton (0)) {
 			UserInputUpdate ();
 		}
@@ -176,4 +177,13 @@ public class ColorSelector : MonoBehaviour {
 	public static Color GetColor(){
 		return myslf.finalColor;
 	}
+    public static void SetColor(Color color)
+    {
+        myslf.finalColor = color;
+        myslf.selectedColor = color;
+       // myslf.SelectInnerColor(Vector2.zero);
+        myslf.finalColorSprite.color = color;
+
+       
+    }
 }

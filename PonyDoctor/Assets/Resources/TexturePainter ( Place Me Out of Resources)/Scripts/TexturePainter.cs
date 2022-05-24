@@ -23,9 +23,22 @@ public class TexturePainter : MonoBehaviour {
 	int brushCounter=0,MAX_BRUSH_COUNT=1000; //To avoid having millions of brushes
 	bool saving=false; //Flag to check if we are saving the texture
 
-	
-	void Update () {
+    [SerializeField]
+    ParticleSystem brushParticle;
+    Material brushParticleMaterial;
+
+    Vector3 lastHitPosition = new Vector3(9999, 9999, 9999);
+
+    private void Start()
+    {
+        if (brushParticle)
+        {
+            brushParticleMaterial = brushParticle.GetComponent<Renderer>().sharedMaterial; 
+        }
+    }
+    void Update () {
 		brushColor = ColorSelector.GetColor ();	//Updates our painted color with the selected color
+        ChangeParticleColor(brushColor);
 		if (Input.GetMouseButton(0)) {
 			DoAction();
 		}
@@ -38,7 +51,8 @@ public class TexturePainter : MonoBehaviour {
 			return;
 		Vector3 uvWorldPosition=Vector3.zero;		
 		if(HitTestUVPosition(ref uvWorldPosition)){
-			GameObject brushObj;
+            brushParticle.transform.position = lastHitPosition;
+            GameObject brushObj;
 			if(mode==Painter_BrushMode.PAINT){
 
 				brushObj=(GameObject)Instantiate(Resources.Load("TexturePainter-Instances/BrushEntity")); //Paint a brush
@@ -64,7 +78,7 @@ public class TexturePainter : MonoBehaviour {
 	void UpdateBrushCursor(){
 		Vector3 uvWorldPosition=Vector3.zero;
 		if (HitTestUVPosition (ref uvWorldPosition) && !saving) {
-			brushCursor.SetActive(true);
+			//brushCursor.SetActive(true);
 			brushCursor.transform.position =uvWorldPosition+brushContainer.transform.position;									
 		} else {
 			brushCursor.SetActive(false);
@@ -76,7 +90,8 @@ public class TexturePainter : MonoBehaviour {
 		Vector3 cursorPos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0.0f);
 		Ray cursorRay=sceneCamera.ScreenPointToRay (cursorPos);
 		if (Physics.Raycast(cursorRay,out hit,200)){
-			MeshCollider meshCollider = hit.collider as MeshCollider;
+            lastHitPosition = hit.point;
+            MeshCollider meshCollider = hit.collider as MeshCollider;
 			if (meshCollider == null || meshCollider.sharedMesh == null)
 				return false;			
 			Vector2 pixelUV  = new Vector2(hit.textureCoord.x,hit.textureCoord.y);
@@ -85,11 +100,19 @@ public class TexturePainter : MonoBehaviour {
 			uvWorldPosition.z=0.0f;
 			return true;
 		}
-		else{		
-			return false;
+		else{
+            lastHitPosition = new Vector3(9999, 9999, 9999);
+            brushParticle.transform.position = new Vector3(9999, 9999, 9999);
+            return false;
 		}
 		
 	}
+
+    public void ChangeParticleColor(Color _color)
+    {
+        brushParticleMaterial.color = _color;
+    }
+
 	//Sets the base material with a our canvas texture, then removes all our brushes
 	void SaveTexture(){		
 		brushCounter=0;
