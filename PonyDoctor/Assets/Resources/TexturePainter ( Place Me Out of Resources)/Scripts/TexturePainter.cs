@@ -27,6 +27,11 @@ public class TexturePainter : MonoBehaviour {
     ParticleSystem brushParticle;
     Material brushParticleMaterial;
 
+    [SerializeField]
+    Transform brushModel;
+
+    [SerializeField]
+    bool isPaintingMode=true;
     Vector3 lastHitPosition = new Vector3(9999, 9999, 9999);
 
     private void Start()
@@ -37,8 +42,17 @@ public class TexturePainter : MonoBehaviour {
         }
     }
     void Update () {
-		brushColor = ColorSelector.GetColor ();	//Updates our painted color with the selected color
-        ChangeParticleColor(brushColor);
+		
+        if (isPaintingMode)
+        {
+            brushColor = ColorSelector.GetColor();	//Updates our painted color with the selected color
+            ChangeParticleColor(brushColor);
+        }
+        else
+        {
+            brushColor = Color.white;
+        }
+
 		if (Input.GetMouseButton(0)) {
 			DoAction();
 		}
@@ -51,7 +65,17 @@ public class TexturePainter : MonoBehaviour {
 			return;
 		Vector3 uvWorldPosition=Vector3.zero;		
 		if(HitTestUVPosition(ref uvWorldPosition)){
-            brushParticle.transform.position = lastHitPosition;
+
+            if (brushParticle)
+            {
+                brushParticle.transform.position = lastHitPosition;
+            }
+            if (brushModel)
+            {
+                brushModel.position = lastHitPosition;
+            }
+
+           
             GameObject brushObj;
 			if(mode==Painter_BrushMode.PAINT){
 
@@ -102,7 +126,15 @@ public class TexturePainter : MonoBehaviour {
 		}
 		else{
             lastHitPosition = new Vector3(9999, 9999, 9999);
-            brushParticle.transform.position = new Vector3(9999, 9999, 9999);
+            if (brushParticle)
+            {
+                brushParticle.transform.position = new Vector3(9999, 9999, 9999);
+            }
+            if (brushModel)
+            {
+                brushModel.position = lastHitPosition;
+            }
+            
             return false;
 		}
 		
