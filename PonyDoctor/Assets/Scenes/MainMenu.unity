@@ -20,12 +20,12 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_AmbientMode: 3
+  m_SubtractiveShadowColor: {r: 1, g: 1, b: 1, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -2898,6 +2898,9 @@ MonoBehaviour:
   - {fileID: 2800000, guid: b9d7db7bdbfe0874fbe7a3fa61ba2805, type: 3}
   - {fileID: 2800000, guid: 0ece162c74f0af0428018d6ea9d6a2ad, type: 3}
   - {fileID: 2800000, guid: 31f53e0fe4f710245a1c9fb5e3c24c27, type: 3}
+  - {fileID: 2800000, guid: d893d0bf20c70b944ab8f5fcf47d4938, type: 3}
+  - {fileID: 2800000, guid: cee00752026d1a8409e714834df2a7fb, type: 3}
+  - {fileID: 2800000, guid: 37b175c28a0cf084883dbb349a1bb8cb, type: 3}
   scoreText: {fileID: 1520886454}
   stablePrefab: {fileID: 8429289918686903901, guid: 1e182a8b8b0195b4f8655ab22b6f1728, type: 3}
   oldStable: {fileID: 1018495645}
@@ -3818,7 +3821,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -4423,7 +4426,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.00003959, y: 1613}
+  m_AnchoredPosition: {x: 0.000021445, y: 1686}
   m_SizeDelta: {x: 595.892, y: 131.3676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1520886454
@@ -5944,7 +5947,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.17254902, g: 0.17254902, b: 0.20000002, a: 1}
+  m_BackGroundColor: {r: 0.45098042, g: 0.4156863, b: 0.43137258, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6718,6 +6721,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1445864478947621887, guid: 1e182a8b8b0195b4f8655ab22b6f1728, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8429289918686903901, guid: 1e182a8b8b0195b4f8655ab22b6f1728, type: 3}
       propertyPath: m_Name
       value: Stable
