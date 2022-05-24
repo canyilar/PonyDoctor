@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 55e3f3f15a2dcb34ea7342083020a457
   - enabled: 1
-    path: Assets/Scenes/Can.unity
+    path: Assets/Scenes/Game.unity
     guid: 556ffde828e6c5547ac3f795674270c3
-  - enabled: 1
-    path: Assets/Scenes/Cenker.unity
-    guid: ccc63d5dba5f2ba4089b163cafbdf834
   m_configObjects: {}
