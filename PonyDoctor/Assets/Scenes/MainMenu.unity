@@ -6146,6 +6146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02be72fb695168c48a0f71d87e032763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  day: 1
+  firstTimeOpen: 1
   palettes:
   - {fileID: 2800000, guid: 31f53e0fe4f710245a1c9fb5e3c24c27, type: 3}
   - {fileID: 2800000, guid: 0ece162c74f0af0428018d6ea9d6a2ad, type: 3}

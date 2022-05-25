@@ -60,10 +60,23 @@ public class TexturePainter : MonoBehaviour {
             brushColor = new Color (0.5f,0.5f,0.5f,1f);
         }
 
-		if (Input.GetMouseButton(0)) {
+		if (Input.touchCount > 0)
+        {
 			DoAction();
+			//UpdateBrushCursor ();
 		}
-		UpdateBrushCursor ();
+		else
+		{
+			lastHitPosition = new Vector3(9999, 9999, 9999);
+			if (currentParticle)
+			{
+				currentParticle.transform.position = lastHitPosition;
+			}
+			if (soapModel)
+			{
+				soapModel.position = lastHitPosition;
+			}
+		}
 	}
 
     public void SetPaintingMode(bool mode)
@@ -149,7 +162,7 @@ public class TexturePainter : MonoBehaviour {
 	//Returns the position on the texuremap according to a hit in the mesh collider
 	bool HitTestUVPosition(ref Vector3 uvWorldPosition){
 		RaycastHit hit;
-		Vector3 cursorPos = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0.0f);
+		Vector3 cursorPos = new Vector3 (Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 0.0f);
 		Ray cursorRay=sceneCamera.ScreenPointToRay (cursorPos);
 		if (Physics.Raycast(cursorRay,out hit,200)){
             lastHitPosition = hit.point;

@@ -8,9 +8,6 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    int wallet = 0;
-    int day = 1;
-
     [SerializeField]
     Image flash;
 
@@ -64,8 +61,14 @@ public class Menu : MonoBehaviour
             currentDoor=currentStable.GetChild(1).GetChild(0);
         }
 
-        currentDoor.DORotate(new Vector3(0f, 120f, 0f), 0.5f).OnComplete(()=> { flash.DOColor(new Color(1, 1, 1, 1), 0.5f).OnComplete(() => SceneManager.LoadScene(sceneName)); });
-       
+        currentDoor.DORotate(new Vector3(0f, 120f, 0f), 0.5f).OnComplete(() => {
+            flash.DOColor(new Color(1, 1, 1, 1), 0.5f).
+            OnComplete(() =>
+            {
+                PonyTextures.Instance.firstTimeOpen = false; 
+                SceneManager.LoadScene(sceneName);
+            });
+            });
     }
 
     public void NextDayOnClick()
@@ -86,8 +89,11 @@ public class Menu : MonoBehaviour
             return;
         }
 
+        if (PonyTextures.Instance.firstTimeOpen)
+            return;
+
         Vector3 newPos = stablePrefab.transform.position;
-        newPos.x=(day* stableWidthMultiplier);
+        newPos.x=(PonyTextures.Instance.day* stableWidthMultiplier);
         GameObject stable = Instantiate(stablePrefab, newPos, Quaternion.identity);
         currentDoor = stable.transform.GetChild(1).GetChild(0);
         currentStable = stable.transform;
@@ -104,12 +110,12 @@ public class Menu : MonoBehaviour
 
         stable.transform.GetChild(0).GetChild(5).GetComponent<Renderer>().sharedMaterial = _material;
 
-        float newX = (day * stableWidthMultiplier);
+        float newX = (PonyTextures.Instance.day * stableWidthMultiplier);
         Camera.main.transform.DOMoveX(newX, 1f).OnComplete(() => { Destroy(oldStable); oldStable = stable; });
-        
 
-        day++;
-        scoreText.text = "DAY" + day;
+
+        PonyTextures.Instance.day++;
+        scoreText.text = "DAY" + PonyTextures.Instance.day;
     }
 
 

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PonyTextures : MonoSingleton<PonyTextures>
 {
+    public int day = 1;
+    public bool firstTimeOpen = true;
 
     [SerializeField]
     Texture[] palettes;
 
     public int lastChoosenIndex;
-
-
-
-
 
     public Texture GetCurrentTexture()
     {
